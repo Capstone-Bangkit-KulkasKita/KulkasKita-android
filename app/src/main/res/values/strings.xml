@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">KukasKita App V2</string>
+    <string name="tvLogin">Login</string>
+    <string name="tvLoginDesc">Please login to continue</string>
+    <string name="field_cannot_empty">Field cannot be empty!</string>
+    <string name="tvEmail">Email</string>
+    <string name="enter_email">Enter your email</string>
+    <string name="tvPassword">Password</string>
+    <string name="password_minimum">Password must consist of minimum 8 characters</string>
+    <string name="Login">Login</string>
+    <string name="linkRegister">Don\'t have an account? Register now!</string>
+    <string name="tvRegister">Create Account</string>
+    <string name="tvName">Name</string>
+    <string name="enter_password">Enter your password</string>
+    <string name="btnRegister">Register</string>
+    <string name="enter_name">Enter your name</string>
+    <string name="linkLogin">Already have an account? Login here</string>
+    <string name="inventory_name">Inventory Name</string>
+    <string name="expired">Expired in xx day</string>
+    <string name="consume">Consume</string>
+    <string name="remove">Remove</string>
+    <string name="item">Item</string>
+    <string name="item_name">Fill item name</string>
+    <string name="expDate">Expired date</string>
+</resources>
