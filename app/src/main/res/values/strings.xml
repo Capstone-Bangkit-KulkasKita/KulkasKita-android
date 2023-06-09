@@ -22,4 +22,6 @@
     <string name="item">Item</string>
     <string name="item_name">Fill item name</string>
     <string name="expDate">Expired date</string>
+    <string name="inputDate">Input Date</string>
+    <string name="listInventory">Inventory List</string>
 </resources>
