@@ -31,6 +31,7 @@ class MyEditText : AppCompatEditText {
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
+        textSize = 14f
         background = if (isError) editTextErrorBackground else editTextBackground
     }
 

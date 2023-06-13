@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">KukasKita App V2</string>
+    <string name="app_name">KulkasKita App</string>
     <string name="tvLogin">Login</string>
     <string name="tvLoginDesc">Please login to continue</string>
     <string name="field_cannot_empty">Field cannot be empty!</string>
@@ -21,7 +21,25 @@
     <string name="remove">Remove</string>
     <string name="item">Item</string>
     <string name="item_name">Fill item name</string>
-    <string name="expDate">Expired date</string>
+    <string name="expDate">Expired date : </string>
     <string name="inputDate">Input Date</string>
     <string name="listInventory">Inventory List</string>
+    <string name="register_menu">Register</string>
+    <string name="register_success">Register Succes!</string>
+    <string name="empty_name">Name cannot be empty!</string>
+    <string name="empty_email">Email cannot be empty!</string>
+    <string name="login_menu">Login</string>
+    <string name="empty_password">Password cannot be empty!</string>
+    <string name="logout">Logout</string>
+    <string name="addToInventory">Add to Inventory</string>
+    <string name="search">Search</string>
+    <string name="hint">Search in Inventory</string>
+    <string name="information">Information</string>
+    <string name="navUsername">Username</string>
+    <string name="navEmail">username@email.com</string>
+    <string name="open_nav">Open Navigation Drawer</string>
+    <string name="close_nav">Close Navigation Drawer</string>
+    <string name="home">Home</string>
+    <string name="scan">Auto Scan</string>
+    <string name="history">History</string>
 </resources>

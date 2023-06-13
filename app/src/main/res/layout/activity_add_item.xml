@@ -7,18 +7,18 @@
     tools:context=".ui.addItem.AddItemActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/inputForm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="75dp"
         android:layout_marginTop="8dp"
         android:background="@color/light_grey"
         android:padding="15dp"
-        android:layout_marginHorizontal="75dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.613"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.422">
+        app:layout_constraintVertical_bias="0.385">
 
         <TextView
             android:id="@+id/tvItem"
@@ -36,6 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:hint="@string/item_name"
+            android:minHeight="48dp"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -52,7 +53,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/edItemName" />
 
+        <TextView
+            android:id="@+id/tvExpired"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/tvExpDate"
+            app:layout_constraintTop_toBottomOf="@+id/edItemName" />
+
         <Button
+            android:id="@+id/btnInputDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/dark_green"
@@ -64,12 +77,25 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <Button
+        android:id="@+id/btnAddItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:layout_marginTop="24dp"
+        android:text="@string/addToInventory"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/inputForm"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_add_inventory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="40dp"
         android:src="@drawable/ic_camera"
+        android:backgroundTint="@color/darker_green"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
