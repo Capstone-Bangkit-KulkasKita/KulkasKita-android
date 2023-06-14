@@ -31,7 +31,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.example.kukaskitaappv2.customView.MyEditText
-            android:id="@+id/edItemName"
+            android:id="@+id/etItemName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -51,7 +51,7 @@
             android:textColor="@color/black"
             android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edItemName" />
+            app:layout_constraintTop_toBottomOf="@+id/etItemName" />
 
         <TextView
             android:id="@+id/tvExpired"
@@ -62,7 +62,7 @@
             android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/tvExpDate"
-            app:layout_constraintTop_toBottomOf="@+id/edItemName" />
+            app:layout_constraintTop_toBottomOf="@+id/etItemName" />
 
         <Button
             android:id="@+id/btnInputDate"
@@ -104,5 +104,15 @@
         app:layout_constraintVertical_bias="0.96"
         app:tint="@color/white"
         tools:ignore="ContentDescription" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

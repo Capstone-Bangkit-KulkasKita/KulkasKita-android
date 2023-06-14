@@ -8,6 +8,10 @@
         android:icon="@drawable/ic_search_24"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="collapseActionView|always" />
+
+    <item
+        android:id="@+id/menu_information"
+        android:title="@string/information"/>
     <item
         android:id="@+id/menu_logout"
         android:title="@string/logout"/>

@@ -40,12 +40,11 @@ class RegisterActivity : AppCompatActivity() {
         playAnimation()
 
         binding.btnRegister.setOnClickListener {
-            val name = binding.etRegName.text.toString()
             val email = binding.etRegEmail.text.toString()
             val password = binding.etRegPassword.text.toString()
-            if (name.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() &&
-                binding.etRegName.error.isNullOrEmpty() && binding.etRegEmail.error.isNullOrEmpty() && binding.etRegPassword.error.isNullOrEmpty()){
-                val result = registerViewModel.register(name, email, password)
+            if (email.isNotEmpty() && password.isNotEmpty() &&
+                 binding.etRegEmail.error.isNullOrEmpty() && binding.etRegPassword.error.isNullOrEmpty()){
+                val result = registerViewModel.register(email, password)
                 result.observe(this){
                     when(it){
                         is ResultState.Error -> {
@@ -64,7 +63,6 @@ class RegisterActivity : AppCompatActivity() {
                     }
                 }
             } else {
-                if (name.isEmpty()) binding.etRegName.error = getString(R.string.empty_name)
                 if (email.isEmpty()) binding.etRegEmail.error = getString(R.string.empty_email)
                 if (email.isEmpty()) binding.etRegPassword.error = getString(R.string.password_minimum)
             }
@@ -93,8 +91,6 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun playAnimation() {
         val title = ObjectAnimator.ofFloat(binding.tvRegTitle, View.ALPHA, 1f).setDuration(300)
-        val textUsername = ObjectAnimator.ofFloat(binding.tvName, View.ALPHA, 1f).setDuration(300)
-        val inputUsername = ObjectAnimator.ofFloat(binding.etRegName, View.ALPHA, 1f).setDuration(300)
         val textEmail = ObjectAnimator.ofFloat(binding.tvEmail, View.ALPHA, 1f).setDuration(300)
         val inputEmail = ObjectAnimator.ofFloat(binding.etRegEmail, View.ALPHA, 1f).setDuration(300)
         val textPassword = ObjectAnimator.ofFloat(binding.tvPassword, View.ALPHA, 1f).setDuration(300)
@@ -103,7 +99,7 @@ class RegisterActivity : AppCompatActivity() {
         val login = ObjectAnimator.ofFloat(binding.linkLogin, View.ALPHA, 1f).setDuration(300)
 
         val input = AnimatorSet().apply {
-            playTogether(textUsername, inputUsername, textEmail,inputEmail,textPassword,inputPassword)
+            playTogether(textEmail,inputEmail,textPassword,inputPassword)
         }
 
 

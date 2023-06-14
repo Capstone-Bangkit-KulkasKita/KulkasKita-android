@@ -19,6 +19,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kukaskitaappv2.R
 import com.example.kukaskitaappv2.databinding.ActivityMainBinding
 import com.example.kukaskitaappv2.source.datastore.UserPreferences
@@ -31,6 +32,7 @@ import com.google.android.material.navigation.NavigationView
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "myToken")
 class MainActivity : AppCompatActivity(){
     private lateinit var bottomNavigationView: BottomNavigationView
+    private lateinit var foodAdapter: FoodAdapter
     private val binding: ActivityMainBinding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
@@ -44,10 +46,6 @@ class MainActivity : AppCompatActivity(){
     private val mOnNavigationItemSelectedListener =
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.home -> {
-                    startActivity(Intent(this, MainActivity::class.java))
-                    return@OnNavigationItemSelectedListener true
-                }
                 R.id.scan -> {
 
                 }
@@ -66,6 +64,12 @@ class MainActivity : AppCompatActivity(){
         bottomNavigationView = findViewById(R.id.bottom_navigator)
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
+        foodAdapter = FoodAdapter()
+        binding.rvInventory.apply {
+            layoutManager = LinearLayoutManager(this@MainActivity)
+            adapter = foodAdapter
+        }
+
         hideSystemUI()
 
         checkSession()
@@ -76,9 +80,6 @@ class MainActivity : AppCompatActivity(){
         }
     }
 
-    private fun setBottomNavigator() {
-
-    }
 
 
     private fun hideSystemUI() {
@@ -120,6 +121,10 @@ class MainActivity : AppCompatActivity(){
             R.id.menu_logout -> {
                 mainViewModel.logout()
             }
+            R.id.menu_information -> {
+                val intent = Intent(this, InformationActivity::class.java)
+                startActivity(intent)
+            }
         }
         return super.onOptionsItemSelected(item)
     }
@@ -129,6 +134,10 @@ class MainActivity : AppCompatActivity(){
             if (it == "null") {
                 startActivity(Intent(this, LoginActivity::class.java))
                 finish()
+            }else{
+                mainViewModel.getListFood.observe(this) { pagingData ->
+                    foodAdapter.submitData(lifecycle, pagingData)
+                }
             }
         }
     }

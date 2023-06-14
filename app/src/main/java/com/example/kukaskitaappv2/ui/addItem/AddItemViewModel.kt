@@ -18,8 +18,8 @@ class AddItemViewModel(
         return userPreferences.getToken().asLiveData()
     }
 
-//    fun addItem(token: String, name:String, expDate: String) =
-//        repository.addItem(token, name, expDate)
+    fun addItem(token: String, name:String, expDate: String) =
+        repository.addItem(token, name, expDate)
 
     class AddItemViewModelFactory private constructor(
         private val repository: Repository,

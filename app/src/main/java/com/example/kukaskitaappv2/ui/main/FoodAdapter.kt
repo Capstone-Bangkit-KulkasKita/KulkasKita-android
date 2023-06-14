@@ -10,9 +10,9 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kukaskitaappv2.databinding.ItemInventoryBinding
-import com.example.kukaskitaappv2.source.remote.response.FoodItem
+import com.example.kukaskitaappv2.source.remote.response.FoodResponseItem
 
-class FoodAdapter: PagingDataAdapter<FoodItem, FoodAdapter.FoodViewHolder>(DIFF_ITEM_CALLBACK) {
+class FoodAdapter: PagingDataAdapter<FoodResponseItem, FoodAdapter.FoodViewHolder>(DIFF_ITEM_CALLBACK) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoodViewHolder {
         val binding = ItemInventoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return FoodViewHolder(binding)
@@ -27,24 +27,11 @@ class FoodAdapter: PagingDataAdapter<FoodItem, FoodAdapter.FoodViewHolder>(DIFF_
     }
 
     class FoodViewHolder(private val binding: ItemInventoryBinding) : RecyclerView.ViewHolder(binding.root){
-        fun bind(food: FoodItem) {
+        fun bind(food: FoodResponseItem) {
             binding.apply {
                 tvInventoryName.text = food.name
                 tvExpired.text = food.expDate
 
-//                itemView.setOnClickListener {
-//                    val intent = Intent(itemView.context, DetailActivity::class.java)
-//                    intent.putExtra(EXTRA_DATA, story)
-//
-//                    val optionsCompat: ActivityOptionsCompat =
-//                        ActivityOptionsCompat.makeSceneTransitionAnimation(
-//                            itemView.context as Activity,
-//                            Pair(ivStoryPhoto, "story"),
-//                            Pair(tvStoryName, "name"),
-//                            Pair(tvStoryDesc, "desc")
-//                        )
-//                    itemView.context.startActivity(intent, optionsCompat.toBundle())
-//                }
             }
         }
     }
@@ -52,17 +39,17 @@ class FoodAdapter: PagingDataAdapter<FoodItem, FoodAdapter.FoodViewHolder>(DIFF_
 
 
     companion object {
-        val DIFF_ITEM_CALLBACK = object : DiffUtil.ItemCallback<FoodItem>() {
+        val DIFF_ITEM_CALLBACK = object : DiffUtil.ItemCallback<FoodResponseItem>() {
             override fun areItemsTheSame(
-                oldStory: FoodItem,
-                newStory: FoodItem
+                oldStory: FoodResponseItem,
+                newStory: FoodResponseItem
             ): Boolean {
                 return oldStory == newStory
             }
 
             override fun areContentsTheSame(
-                oldStory: FoodItem,
-                newStory: FoodItem
+                oldStory: FoodResponseItem,
+                newStory: FoodResponseItem
             ): Boolean {
                 return oldStory.name == newStory.name &&
                         oldStory.expDate == newStory.expDate

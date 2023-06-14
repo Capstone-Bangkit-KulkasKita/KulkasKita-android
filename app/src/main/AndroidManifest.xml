@@ -16,10 +16,12 @@
         tools:targetApi="31">
         <activity
             android:name=".ui.info.InformationActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".ui.main.MainActivity"/>
         <activity
             android:name=".ui.addItem.AddItemActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".ui.main.MainActivity"/>
         <activity
             android:name=".ui.register.RegisterActivity"
             android:exported="false" />

@@ -8,11 +8,11 @@ import androidx.lifecycle.asLiveData
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import androidx.paging.liveData
 import com.example.kukaskitaappv2.helper.ResultState
+import com.example.kukaskitaappv2.paging.FoodPagingSource
 import com.example.kukaskitaappv2.source.datastore.UserPreferences
-import com.example.kukaskitaappv2.source.remote.response.FoodItem
-import com.example.kukaskitaappv2.source.remote.response.RegisterResponse
-import com.example.kukaskitaappv2.source.remote.response.UserResponse
+import com.example.kukaskitaappv2.source.remote.response.*
 import com.example.kukaskitaappv2.source.remote.retrofit.ApiService
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -31,59 +31,54 @@ class Repository private constructor(
 ) {
     private val registerResult = MediatorLiveData<ResultState<RegisterResponse>>()
     private val loginResult = MediatorLiveData<ResultState<UserResponse>>()
-//    private val addItemResult = MediatorLiveData<ResultState<GeneralResponse>>()
-    private val _list = MutableLiveData<UserResponse>()
-    val list: LiveData<UserResponse> = _list
+    private val addItemResult = MediatorLiveData<ResultState<AddItemResponse>>()
+    private val _list = MutableLiveData<FoodResponse>()
+    val list: LiveData<FoodResponse> = _list
 
-//    fun getStories(): LiveData<PagingData<FoodItem>> {
-//        return Pager(
-//            config = PagingConfig(
-//                pageSize = 5
-//            ),
-//            pagingSourceFactory = {
-//                StoryPagingSource(preferences, apiService)
-//            }
-//        ).liveData
-//    }
+    fun getFood(): LiveData<PagingData<FoodResponseItem>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 5
+            ),
+            pagingSourceFactory = {
+                FoodPagingSource(preferences, apiService)
+            }
+        ).liveData
+    }
 
-//    fun addItem(token: String, name:String, expDate: String): LiveData<ResultState<GeneralResponse>> {
-//        addItemResult.postValue(ResultState.Loading)
-//
-//        val textPlainMediaType = "text/plain".toMediaType()
-//
-//        val nameRequestBody = name.toRequestBody(textPlainMediaType)
-//        val dateRequestBody = expDate.toRequestBody(textPlainMediaType)
-//
-//        val client = apiService.uploadItem(token, nameRequestBody, dateRequestBody)
-//        client.enqueue(object : Callback<GeneralResponse> {
-//            override fun onResponse(
-//                call: Call<GeneralResponse>,
-//                response: Response<GeneralResponse>
-//            ) {
-//                if (response.isSuccessful) {
-//                    val responseInfo = response.body()
-//                    if (responseInfo != null) {
-//                        addItemResult.postValue(ResultState.Success(responseInfo))
-//                    } else {
-//                        addItemResult.postValue(ResultState.Error(POST_ERROR))
-//                        Log.e(TAG, "Failed: story post info is null")
-//                    }
-//                } else {
-//                    addItemResult.postValue(ResultState.Error(POST_ERROR))
-//                    Log.e(TAG, "Failed: story post response unsuccessful - ${response.message()}")
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
-//                addItemResult.postValue(ResultState.Error(POST_ERROR))
-//                Log.e(TAG, "Failed: story post response failure - ${t.message.toString()}")
-//            }
-//        })
-//
-//        return addItemResult
-//    }
+    fun addItem(token: String, name:String, expDate: String): LiveData<ResultState<AddItemResponse>> {
+        addItemResult.value = ResultState.Loading
 
-    fun registerUser(name: String, email: String, password: String): LiveData<ResultState<RegisterResponse>> {
+        val client = apiService.addItem(token, name, expDate)
+        client.enqueue(object : Callback<AddItemResponse> {
+            override fun onResponse(
+                call: Call<AddItemResponse>,
+                response: Response<AddItemResponse>
+            ) {
+                if (response.isSuccessful) {
+                    val responseInfo = response.body()
+                    if (responseInfo != null) {
+                        addItemResult.postValue(ResultState.Success(responseInfo))
+                    } else {
+                        addItemResult.postValue(ResultState.Error(POST_ERROR))
+                        Log.e(TAG, "Failed: add Item is null")
+                    }
+                } else {
+                    addItemResult.postValue(ResultState.Error(POST_ERROR))
+                    Log.e(TAG, "Failed: add Item response unsuccessful - ${response.message()}")
+                }
+            }
+
+            override fun onFailure(call: Call<AddItemResponse>, t: Throwable) {
+                addItemResult.postValue(ResultState.Error(POST_ERROR))
+                Log.e(TAG, "Failed: story post response failure - ${t.message.toString()}")
+            }
+        })
+
+        return addItemResult
+    }
+
+    fun registerUser(email: String, password: String): LiveData<ResultState<RegisterResponse>> {
         registerResult.value = ResultState.Loading
         val client = apiService.register(email, password)
         client.enqueue(object : Callback<RegisterResponse> {
