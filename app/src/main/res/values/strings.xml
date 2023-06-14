@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">KukasKita App V2</string>
+    <string name="app_name">KulkasKita</string>
     <string name="tvLogin">Login</string>
     <string name="tvLoginDesc">Please login to continue</string>
     <string name="field_cannot_empty">Field cannot be empty!</string>
@@ -21,5 +21,34 @@
     <string name="remove">Remove</string>
     <string name="item">Item</string>
     <string name="item_name">Fill item name</string>
-    <string name="expDate">Expired date</string>
+    <string name="expDate">Expired date : </string>
+    <string name="inputDate">Input Date</string>
+    <string name="listInventory">Inventory List</string>
+    <string name="register_menu">Register</string>
+    <string name="register_success">Register Succes!</string>
+    <string name="empty_name">Name cannot be empty!</string>
+    <string name="empty_email">Email cannot be empty!</string>
+    <string name="login_menu">Login</string>
+    <string name="empty_password">Password cannot be empty!</string>
+    <string name="logout">Logout</string>
+    <string name="addToInventory">Add to Inventory</string>
+    <string name="search">Search</string>
+    <string name="hint">Search in Inventory</string>
+    <string name="information">Information</string>
+    <string name="navUsername">Username</string>
+    <string name="navEmail">username@email.com</string>
+    <string name="open_nav">Open Navigation Drawer</string>
+    <string name="close_nav">Close Navigation Drawer</string>
+    <string name="home">Home</string>
+    <string name="scan">Auto Scan</string>
+    <string name="history">History</string>
+    <string name="app_version">v 1.0.0</string>
+    <string name="teamId">C23-PS133</string>
+    <string name="member1">Yashinta Nilam Sari (M295DSY0060)</string>
+    <string name="member2">Iqbal Riki Aldi (M260DSX2365)</string>
+    <string name="member3">Firzy Allen (M181DSX3295)</string>
+    <string name="member4">Muhammad Farhan Harvito (C306DSX2705)</string>
+    <string name="member5">Brilliannissa Zulfa Kurniawati (C150DKY3897)</string>
+    <string name="member6">Alfian Rizki Mughni Aziz (A306DSX2284)</string>
+    <string name="succes_addItem">Item added to Your Inventory!</string>
 </resources>
