@@ -5,22 +5,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
-import androidx.paging.*
 import com.example.kukaskitaappv2.helper.ResultState
 import com.example.kukaskitaappv2.source.datastore.UserPreferences
 import com.example.kukaskitaappv2.source.remote.response.*
 import com.example.kukaskitaappv2.source.remote.retrofit.ApiService
-import kotlinx.coroutines.flow.first
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.File
-import java.util.Date
+
 
 class Repository private constructor(
     private val apiService: ApiService,

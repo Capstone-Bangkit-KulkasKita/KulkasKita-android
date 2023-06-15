@@ -12,8 +12,6 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
 import android.view.View
-import android.widget.Button
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.datastore.core.DataStore
@@ -21,14 +19,12 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import com.example.kukaskitaappv2.R
 import com.example.kukaskitaappv2.databinding.ActivityAddItemBinding
-import com.example.kukaskitaappv2.databinding.ActivityLoginBinding
 import com.example.kukaskitaappv2.helper.ResultState
 import com.example.kukaskitaappv2.ml.ConvertedModel
 import com.example.kukaskitaappv2.source.datastore.UserPreferences
 import com.example.kukaskitaappv2.ui.login.LoginActivity
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
-import java.io.File
 import java.io.IOException
 import java.nio.ByteBuffer
 import java.nio.ByteOrder

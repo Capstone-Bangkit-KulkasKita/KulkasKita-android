@@ -35,26 +35,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvInventoryName" />
 
-        <Button
-            android:id="@+id/btnConsume"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_marginStart="140dp"
-            android:layout_marginTop="75dp"
-            android:layout_marginBottom="8dp"
-            android:backgroundTint="@color/dark_green"
-            android:text="@string/consume"
-            android:textSize="9sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/btnRemove"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:layout_marginStart="25dp"
+            android:layout_marginStart="220dp"
             android:layout_marginTop="75dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="8dp"
@@ -64,7 +50,7 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/btnConsume"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

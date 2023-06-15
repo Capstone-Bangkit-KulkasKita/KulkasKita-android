@@ -10,18 +10,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.app.NotificationCompat
-import androidx.core.content.ContextCompat.startActivity
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kukaskitaappv2.R
 import com.example.kukaskitaappv2.databinding.ItemInventoryBinding
-import com.example.kukaskitaappv2.helper.ResultState
-import com.example.kukaskitaappv2.source.remote.response.AddItemResponse
 import com.example.kukaskitaappv2.source.remote.response.DeleteResponse
 import com.example.kukaskitaappv2.source.remote.response.FoodResponseItem
 import com.example.kukaskitaappv2.source.remote.retrofit.ApiConfig
-import com.example.kukaskitaappv2.ui.info.InformationActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -53,7 +47,6 @@ class FoodAdapter(private var listFood: List<FoodResponseItem>, var myToken: Str
     class ViewHolder(private val binding: ItemInventoryBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: FoodResponseItem, token: String) {
-            val deleteItemResult = MediatorLiveData<ResultState<DeleteResponse>>()
             val specificDate = Instant.parse(item.expDate)
             val currentDate = Instant.now() // Get the current date and time
 
@@ -62,6 +55,10 @@ class FoodAdapter(private var listFood: List<FoodResponseItem>, var myToken: Str
 
             binding.tvInventoryName.text = item.name
             binding.tvExpired.text = "Expired in $duration days!"
+            if(duration < 0){
+                deleteFood(token,item.id)
+            }
+
             if (duration <= 2) {
                 binding.tvExpired.setTextColor(ContextCompat.getColor(binding.root.context, R.color.red_200))
                 val notificationManager = ContextCompat.getSystemService(binding.root.context, NotificationManager::class.java)
@@ -100,11 +97,10 @@ class FoodAdapter(private var listFood: List<FoodResponseItem>, var myToken: Str
                     call: Call<DeleteResponse>,
                     response: Response<DeleteResponse>
                 ) {
-
                     if (response.isSuccessful) {
                         val intent = Intent(binding.btnRemove.context, MainActivity::class.java)
                         binding.btnRemove.context.startActivity(intent)
-                        Log.d("Sukses", response.body().toString())
+                        Log.d("Success", response.body().toString())
                     } else {
                         Log.e(TAG, "onSuccess: ${response.message()}")
                     }
@@ -117,9 +113,4 @@ class FoodAdapter(private var listFood: List<FoodResponseItem>, var myToken: Str
         }
     }
 
-    companion object {
-        private const val NOTIFICATION_ID = 1
-        private const val CHANNEL_ID = "channel_01"
-        private const val CHANNEL_NAME = "dicoding channel"
-    }
 }

@@ -5,12 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import androidx.paging.PagingData
-import androidx.paging.cachedIn
 import com.example.kukaskitaappv2.helper.Injection
 import com.example.kukaskitaappv2.repository.Repository
 import com.example.kukaskitaappv2.source.datastore.UserPreferences
-import com.example.kukaskitaappv2.source.remote.response.FoodResponse
 import com.example.kukaskitaappv2.source.remote.response.FoodResponseItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
