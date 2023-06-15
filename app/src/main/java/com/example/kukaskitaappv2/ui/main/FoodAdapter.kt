@@ -1,62 +1,62 @@
 package com.example.kukaskitaappv2.ui.main
 
-import android.app.Activity
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.ContentValues.TAG
-import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.activity.viewModels
-import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
-import androidx.activity.viewModels
-import androidx.core.util.Pair
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.preferencesDataStore
-import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.DiffUtil
 import androidx.core.app.NotificationCompat
-import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.content.ContextCompat.startActivity
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kukaskitaappv2.R
 import com.example.kukaskitaappv2.databinding.ItemInventoryBinding
-import com.example.kukaskitaappv2.source.datastore.UserPreferences
+import com.example.kukaskitaappv2.helper.ResultState
+import com.example.kukaskitaappv2.source.remote.response.AddItemResponse
 import com.example.kukaskitaappv2.source.remote.response.DeleteResponse
 import com.example.kukaskitaappv2.source.remote.response.FoodResponseItem
 import com.example.kukaskitaappv2.source.remote.retrofit.ApiConfig
-import kotlinx.coroutines.flow.Flow
+import com.example.kukaskitaappv2.ui.info.InformationActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.time.Duration
 import java.time.Instant
 
-class FoodAdapter(private var listFood: List<FoodResponseItem>) : RecyclerView.Adapter<FoodAdapter.ViewHolder>() {
+
+class FoodAdapter(private var listFood: List<FoodResponseItem>, var myToken: String) : RecyclerView.Adapter<FoodAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemInventoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
+
+    var token = myToken
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = listFood[position]
-        holder.bind(item)
-//        holder.itemView.setOnClickListener{
-//            val intentDetail = Intent(holder.itemView.context, DetailActivity::class.java)
-//            intentDetail.putExtra("DATA", item.login)
-//            intentDetail.putExtra("DATA2",item.avatarUrl)
-//            holder.itemView.context.startActivity(intentDetail)
-//        }
+        holder.bind(item, token.toString())
     }
     override fun getItemCount()= listFood.size
 
+    fun removeProduct(model: FoodResponseItem) {
+        val position = listFood.indexOf(model)
+        listFood.filter { it.id != model.id }
+        notifyItemRemoved(position)
+    }
+
+
+
     class ViewHolder(private val binding: ItemInventoryBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: FoodResponseItem) {
+
+        fun bind(item: FoodResponseItem, token: String) {
+            val deleteItemResult = MediatorLiveData<ResultState<DeleteResponse>>()
             val specificDate = Instant.parse(item.expDate)
             val currentDate = Instant.now() // Get the current date and time
+
 
             val duration = Duration.between(currentDate, specificDate).toDays()
 
@@ -87,25 +87,33 @@ class FoodAdapter(private var listFood: List<FoodResponseItem>) : RecyclerView.A
             }
 
 
-//            binding.btnRemove.setOnClickListener {
-//                val client = ApiConfig.getApiService().deleteFood()
-//                client.enqueue(object : Callback<List<DeleteResponse>> {
-//                    override fun onResponse(
-//                        call: Call<List<DeleteResponse>>,
-//                        response: Response<List<DeleteResponse>>
-//                    ) {
-//                        if (response.isSuccessful) {
-//                           _follower.value = response.body()
-//                        } else {
-//                            Log.e(TAG, "onSuccess: ${response.message()}")
-//                        }
-//                    }
-//                    override fun onFailure(call: Call<List<DeleteResponse>>, t: Throwable) {
-//                        Log.e(TAG, "onFailure: ${t.message.toString()}")
-//                    }
-//
-//                })
-//            }
+            binding.btnRemove.setOnClickListener {
+                deleteFood(token,item.id)
+
+            }
+        }
+
+        private fun deleteFood(token:String, id:Int) {
+            val client = ApiConfig.getApiService().deleteFood(token = token, id = id)
+            client.enqueue(object : Callback<DeleteResponse>{
+                override fun onResponse(
+                    call: Call<DeleteResponse>,
+                    response: Response<DeleteResponse>
+                ) {
+
+                    if (response.isSuccessful) {
+                        val intent = Intent(binding.btnRemove.context, MainActivity::class.java)
+                        binding.btnRemove.context.startActivity(intent)
+                        Log.d("Sukses", response.body().toString())
+                    } else {
+                        Log.e(TAG, "onSuccess: ${response.message()}")
+                    }
+                }
+                override fun onFailure(call: Call<DeleteResponse>, t: Throwable) {
+                    Log.e(TAG, "onFailure: ${t.message.toString()}")
+                }
+
+            })
         }
     }
 

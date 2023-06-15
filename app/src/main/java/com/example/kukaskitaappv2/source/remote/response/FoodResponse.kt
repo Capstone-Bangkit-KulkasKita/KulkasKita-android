@@ -19,8 +19,8 @@ data class FoodResponseItem(
 	@field:SerializedName("name")
 	val name: String? = null,
 
-	@field:SerializedName("id")
-	val id: Int? = null,
+	@field:SerializedName("food_id")
+	val id: Int,
 
 	@field:SerializedName("expDate")
 	val expDate: String? = null,

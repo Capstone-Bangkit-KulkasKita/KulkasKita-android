@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
@@ -17,12 +18,14 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kukaskitaappv2.R
 import com.example.kukaskitaappv2.databinding.ActivityMainBinding
+import com.example.kukaskitaappv2.repository.Repository
 import com.example.kukaskitaappv2.source.datastore.UserPreferences
 import com.example.kukaskitaappv2.source.remote.response.FoodResponseItem
 import com.example.kukaskitaappv2.ui.addItem.AddItemActivity
@@ -30,6 +33,7 @@ import com.example.kukaskitaappv2.ui.info.InformationActivity
 import com.example.kukaskitaappv2.ui.login.LoginActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
+import kotlinx.coroutines.flow.map
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "myToken")
 class MainActivity : AppCompatActivity(){
@@ -106,17 +110,26 @@ class MainActivity : AppCompatActivity(){
                 startActivity(Intent(this, LoginActivity::class.java))
                 finish()
             }else{
+                var token = "Bearer $it"
                 mainViewModel.getListFood("Bearer $it")
                 mainViewModel.list.observe(this) {
-                    setFoodData(it)
+                    setFoodData(it, token)
                 }
             }
         }
     }
 
-    private fun setFoodData(item: List<FoodResponseItem>?) {
+    private fun setFoodData(item: List<FoodResponseItem>?, token: String) {
+//        val repository: Repository
+
+//        val token = mainViewModel.checkToken().observe(this)
+//        val myToken = dataStore.data.map {
+//            it[token] ?: "null"
+//        }
+//        println(token)
+//        Log.d("token", myToken.toString())
         val sortedList = item?.sortedBy { it.expDate }
-        val adapter = sortedList?.let { FoodAdapter(it,) }
+        val adapter = sortedList?.let { FoodAdapter(it, token) }
         binding.rvInventory.adapter = adapter
     }
 

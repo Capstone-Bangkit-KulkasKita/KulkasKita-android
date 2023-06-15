@@ -1,6 +1,7 @@
 package com.example.kukaskitaappv2.source.remote.retrofit
 
 import com.example.kukaskitaappv2.source.remote.response.AddItemResponse
+import com.example.kukaskitaappv2.source.remote.response.DeleteResponse
 import com.example.kukaskitaappv2.source.remote.response.FoodResponse
 import com.example.kukaskitaappv2.source.remote.response.RegisterResponse
 import com.example.kukaskitaappv2.source.remote.response.UserResponse
@@ -37,9 +38,9 @@ interface ApiService {
         @Header("Authorization") token: String,
     ):Call<FoodResponse>
 
-    @DELETE("food/{id}")
+    @DELETE("food/delete/{id}")
     fun deleteFood(
         @Header("Authorization") token: String,
         @Path("id") id: Int
-    ):Call<FoodResponse>
+    ):Call<DeleteResponse>
 }
