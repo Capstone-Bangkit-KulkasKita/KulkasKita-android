@@ -9,7 +9,7 @@ import com.example.kukaskitaappv2.helper.Injection
 import com.example.kukaskitaappv2.repository.Repository
 
 class RegisterViewModel(private val repository: Repository) : ViewModel() {
-    fun register(email: String, password: String) = repository.registerUser(email, password)
+    fun register(username:String, email: String, password: String) = repository.registerUser(username, email, password)
 
     class RegisterViewModelFactory private constructor(private val repository: Repository) : ViewModelProvider.NewInstanceFactory() {
         @Suppress("UNCHECKED_CAST")

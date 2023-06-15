@@ -12,6 +12,7 @@ interface ApiService {
     @FormUrlEncoded
     @POST("users/register")
     fun register(
+        @Field("username") username: String,
         @Field("email") email: String,
         @Field("password") password: String
     ): Call<RegisterResponse>
@@ -32,8 +33,13 @@ interface ApiService {
     ): Call<AddItemResponse>
 
     @GET("food/")
-    suspend fun getFood(
+    fun getFood(
         @Header("Authorization") token: String,
-    ):Response<FoodResponse>
+    ):Call<FoodResponse>
 
+    @DELETE("food/{id}")
+    fun deleteFood(
+        @Header("Authorization") token: String,
+        @Path("id") id: Int
+    ):Call<FoodResponse>
 }

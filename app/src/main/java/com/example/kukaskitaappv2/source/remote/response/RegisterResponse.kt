@@ -19,6 +19,9 @@ data class RegisterResponse(
 	@field:SerializedName("email")
 	val email: String? = null,
 
+	@field:SerializedName("username")
+	val username: String? = null,
+
 	@field:SerializedName("updatedAt")
 	val updatedAt: String? = null
 )

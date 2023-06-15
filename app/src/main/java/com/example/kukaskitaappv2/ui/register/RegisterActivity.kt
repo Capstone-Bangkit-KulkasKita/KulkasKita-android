@@ -40,11 +40,12 @@ class RegisterActivity : AppCompatActivity() {
         playAnimation()
 
         binding.btnRegister.setOnClickListener {
+            val username = binding.etRegUsername.text.toString()
             val email = binding.etRegEmail.text.toString()
             val password = binding.etRegPassword.text.toString()
-            if (email.isNotEmpty() && password.isNotEmpty() &&
-                 binding.etRegEmail.error.isNullOrEmpty() && binding.etRegPassword.error.isNullOrEmpty()){
-                val result = registerViewModel.register(email, password)
+            if (email.isNotEmpty() && password.isNotEmpty() && username.isNotEmpty() &&
+                 binding.etRegEmail.error.isNullOrEmpty() && binding.etRegPassword.error.isNullOrEmpty() && binding.etRegUsername.error.isNullOrEmpty()){
+                val result = registerViewModel.register(username, email, password)
                 result.observe(this){
                     when(it){
                         is ResultState.Error -> {

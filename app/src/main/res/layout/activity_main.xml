@@ -51,14 +51,4 @@
             tools:ignore="ContentDescription" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottom_navigator"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            app:itemBackground="@color/dark_green"
-            app:itemTextColor="@drawable/selector"
-            app:itemIconTint="@drawable/selector"
-            app:menu="@menu/bottom_menu"
-            />
 </RelativeLayout>
