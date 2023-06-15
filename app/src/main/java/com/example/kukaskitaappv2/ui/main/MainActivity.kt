@@ -19,10 +19,12 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kukaskitaappv2.R
 import com.example.kukaskitaappv2.databinding.ActivityMainBinding
 import com.example.kukaskitaappv2.source.datastore.UserPreferences
+import com.example.kukaskitaappv2.source.remote.response.FoodResponseItem
 import com.example.kukaskitaappv2.ui.addItem.AddItemActivity
 import com.example.kukaskitaappv2.ui.info.InformationActivity
 import com.example.kukaskitaappv2.ui.login.LoginActivity
@@ -31,8 +33,6 @@ import com.google.android.material.navigation.NavigationView
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "myToken")
 class MainActivity : AppCompatActivity(){
-    private lateinit var bottomNavigationView: BottomNavigationView
-    private lateinit var foodAdapter: FoodAdapter
     private val binding: ActivityMainBinding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
@@ -43,32 +43,18 @@ class MainActivity : AppCompatActivity(){
         )
     }
 
-    private val mOnNavigationItemSelectedListener =
-        BottomNavigationView.OnNavigationItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.scan -> {
 
-                }
-                R.id.history -> {
-
-                }
-            }
-            false
-        }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
         supportActionBar?.title = "KulkasKita App"
 
-        bottomNavigationView = findViewById(R.id.bottom_navigator)
-        bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+        val layoutManager = LinearLayoutManager(this)
+        binding.rvInventory.layoutManager = layoutManager
 
-        foodAdapter = FoodAdapter()
-        binding.rvInventory.apply {
-            layoutManager = LinearLayoutManager(this@MainActivity)
-            adapter = foodAdapter
-        }
+        val itemDecoration = DividerItemDecoration(this, layoutManager.orientation)
+        binding.rvInventory.addItemDecoration(itemDecoration)
 
         hideSystemUI()
 
@@ -78,6 +64,7 @@ class MainActivity : AppCompatActivity(){
             val intent = Intent(this, AddItemActivity::class.java)
             startActivity(intent)
         }
+
     }
 
 
@@ -97,22 +84,6 @@ class MainActivity : AppCompatActivity(){
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.option_menu, menu)
-        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
-        val searchView = menu.findItem(R.id.search).actionView as SearchView
-
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
-        searchView.queryHint = resources.getString(R.string.hint)
-//        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-//            override fun onQueryTextSubmit(query: String): Boolean {
-//                showLoading(true)
-//                mainViewModel.findUser(query)
-//                searchView.clearFocus()
-//                return true
-//            }
-//            override fun onQueryTextChange(newText: String): Boolean {
-//                return false
-//            }
-//        })
         return true
     }
 
@@ -135,11 +106,18 @@ class MainActivity : AppCompatActivity(){
                 startActivity(Intent(this, LoginActivity::class.java))
                 finish()
             }else{
-                mainViewModel.getListFood.observe(this) { pagingData ->
-                    foodAdapter.submitData(lifecycle, pagingData)
+                mainViewModel.getListFood("Bearer $it")
+                mainViewModel.list.observe(this) {
+                    setFoodData(it)
                 }
             }
         }
+    }
+
+    private fun setFoodData(item: List<FoodResponseItem>?) {
+        val sortedList = item?.sortedBy { it.expDate }
+        val adapter = sortedList?.let { FoodAdapter(it,) }
+        binding.rvInventory.adapter = adapter
     }
 
 

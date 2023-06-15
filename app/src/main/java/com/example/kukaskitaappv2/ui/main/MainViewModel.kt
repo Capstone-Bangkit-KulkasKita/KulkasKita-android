@@ -18,8 +18,9 @@ import kotlinx.coroutines.launch
 class MainViewModel(
     private val repository: Repository,
 ): ViewModel() {
-    val getListFood: LiveData<PagingData<FoodResponseItem>> =
-        repository.getFood().cachedIn(viewModelScope)
+
+    val list: LiveData<List<FoodResponseItem>> = repository.list
+    fun getListFood(myToken:String) = repository.getFood(myToken)
     fun checkToken(): LiveData<String> {
         return repository.getToken()
     }

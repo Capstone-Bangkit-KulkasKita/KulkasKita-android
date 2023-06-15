@@ -5,15 +5,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
-import androidx.paging.liveData
+import androidx.paging.*
 import com.example.kukaskitaappv2.helper.ResultState
-import com.example.kukaskitaappv2.paging.FoodPagingSource
 import com.example.kukaskitaappv2.source.datastore.UserPreferences
 import com.example.kukaskitaappv2.source.remote.response.*
 import com.example.kukaskitaappv2.source.remote.retrofit.ApiService
+import kotlinx.coroutines.flow.first
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -32,18 +29,26 @@ class Repository private constructor(
     private val registerResult = MediatorLiveData<ResultState<RegisterResponse>>()
     private val loginResult = MediatorLiveData<ResultState<UserResponse>>()
     private val addItemResult = MediatorLiveData<ResultState<AddItemResponse>>()
-    private val _list = MutableLiveData<FoodResponse>()
-    val list: LiveData<FoodResponse> = _list
+    private val _list = MutableLiveData<List<FoodResponseItem>>()
+    val list: LiveData<List<FoodResponseItem>> = _list
 
-    fun getFood(): LiveData<PagingData<FoodResponseItem>> {
-        return Pager(
-            config = PagingConfig(
-                pageSize = 5
-            ),
-            pagingSourceFactory = {
-                FoodPagingSource(preferences, apiService)
+    fun getFood(myToken:String){
+        val client = apiService.getFood(myToken)
+        client.enqueue(object : Callback<FoodResponse> {
+            override fun onResponse(
+                call: Call<FoodResponse>,
+                response: Response<FoodResponse>
+            ) {
+                if (response.isSuccessful) {
+                    _list.value = response.body()?.food
+                } else {
+                    Log.e(TAG, "onFailure: ${response.message()}")
+                }
             }
-        ).liveData
+            override fun onFailure(call: Call<FoodResponse>, t: Throwable) {
+                Log.e(TAG, "onFailure: ${t.message.toString()}")
+            }
+        })
     }
 
     fun addItem(token: String, name:String, expDate: String): LiveData<ResultState<AddItemResponse>> {
@@ -78,9 +83,9 @@ class Repository private constructor(
         return addItemResult
     }
 
-    fun registerUser(email: String, password: String): LiveData<ResultState<RegisterResponse>> {
+    fun registerUser(username : String, email: String, password: String): LiveData<ResultState<RegisterResponse>> {
         registerResult.value = ResultState.Loading
-        val client = apiService.register(email, password)
+        val client = apiService.register(username,email, password)
         client.enqueue(object : Callback<RegisterResponse> {
             override fun onResponse(
                 call: Call<RegisterResponse>,

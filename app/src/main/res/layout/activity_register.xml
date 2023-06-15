@@ -22,18 +22,42 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
-
     <TextView
-        android:id="@+id/tvEmail"
+        android:id="@+id/tvUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
-        android:text="@string/tvEmail"
+        android:text="@string/tvName"
         android:textAlignment="textStart"
         android:textColor="@color/light_cream"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvRegTitle" />
+
+    <com.example.kukaskitaappv2.customView.MyEditText
+        android:id="@+id/etRegUsername"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:drawablePadding="10dp"
+        android:hint="@string/enter_name"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvUsername" />
+
+
+    <TextView
+        android:id="@+id/tvEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/tvEmail"
+        android:textAlignment="textStart"
+        android:textColor="@color/light_cream"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etRegUsername" />
 
     <com.example.kukaskitaappv2.customView.MyEditText
         android:id="@+id/etRegEmail"
